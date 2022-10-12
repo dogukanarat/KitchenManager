@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KmSessionWidget</class>
+ <widget class="QWidget" name="KmSessionWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>579</width>
+    <height>483</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="KmMediaPlayerWidget" name="widgetMediaPlayer" native="true"/>
+   </item>
+   <item row="1" column="0">
+    <layout class="QGridLayout" name="gridLayout21"/>
+   </item>
+   <item row="0" column="1">
+    <layout class="QGridLayout" name="gridLayout12" rowstretch="0" columnstretch="0"/>
+   </item>
+   <item row="1" column="1">
+    <layout class="QGridLayout" name="gridLayout22"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KmMediaPlayerWidget</class>
+   <extends>QWidget</extends>
+   <header>KmMediaPlayerWidget/KmMediaPlayerWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
