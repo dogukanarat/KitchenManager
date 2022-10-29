@@ -16,6 +16,9 @@ KmMediaPlayerWidget::KmMediaPlayerWidget(QWidget *parent)
     // this->setAutoFillBackground(TRUE); 
     // this->setPalette(pal);
 
+    // set spacing 0
+    this->layout()->setContentsMargins(0, 0, 0, 0);
+
     init();
 
     QString fileName = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File (*.avi, *.mpg, *.mp4)");
