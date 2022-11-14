@@ -4,10 +4,9 @@ import { API_URL } from '../Constants'
 import ReactPlayer from 'react-player'
 import Styled from 'styled-components'
 import BgBlackImage from '../resources/bg-black.png'
+import ShelfBlackImage from '../resources/shelf-black.png'
 import BgYellowImage from '../resources/bg-yellow.png'
 import ShelfYellowImage from '../resources/shelf-yellow.png'
-import ShelfBlackImage from '../resources/shelf-black.png'
-
 
 const Wrapper = Styled.div.attrs({
 })`
@@ -79,10 +78,22 @@ class OrderView extends Component {
         super(props)
         this.state = {
             orders: [],
+            videos: [],
+            currentVideoIndex: 0,
             isLoading: false,
         }
 
         document.title = 'Siparis Akisi';
+
+        let result = require.context('../resources/videos/', false, /\.(mp4)$/);
+
+        result.keys().forEach((key) => {
+            this.state.videos.push(
+                {
+                    id: key,
+                    url: result(key)
+                });
+        });
     }
 
     componentDidMount = async () => {
@@ -95,7 +106,7 @@ class OrderView extends Component {
         events.addEventListener("order_create", event => {
             let eventData = event.data
 
-            if(eventData.length > 0) {
+            if (eventData.length > 0) {
                 let jsonData = JSON.parse(eventData)
                 this.addNewOrder(jsonData.data)
             }
@@ -105,10 +116,10 @@ class OrderView extends Component {
 
     addNewOrder = (order) => {
         this.setState({ orders: [order, ...this.state.orders] }, () => {
-            
+
             let newOrders = this.state.orders
 
-            if(newOrders.length > 8) {
+            if (newOrders.length > 8) {
                 newOrders.pop()
             }
 
@@ -124,15 +135,26 @@ class OrderView extends Component {
             <Wrapper>
                 <meta name="mobile-web-app-capable" content="yes"></meta>
                 <VideoCard>
-                    <ReactPlayer 
-                    url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-                    config={{
-                        youtube: {
-                          playerVars: { showinfo: 0 }
-                        }
-                      }}
-                    width='100%'
-                    height='100%'
+                    <ReactPlayer
+                        url={this.state.videos[this.state.currentVideoIndex].url}
+                        config={{
+                            youtube: {
+                                playerVars: { showinfo: 0 }
+                            }
+
+                        }}
+                        width='100%'
+                        height='100%'
+                        playing={true}
+                        onEnded={() => {
+                            let newIndex = this.state.currentVideoIndex + 1
+
+                            if (newIndex >= this.state.videos.length) {
+                                newIndex = 0
+                            }
+
+                            this.setState({ currentVideoIndex: newIndex })
+                        }}
                     />
                 </VideoCard>
 
