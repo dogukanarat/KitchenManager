@@ -1,15 +1,17 @@
 import axios from 'axios'
+import { API_URL } from '../Constants'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: API_URL,
 })
 
-export const postNew = payload => api.post(`/postNew`, payload)
-export const postList = () => api.get(`/postList`)
+export const postOrders = (content) => api.post('/v1/orders', content)
+
+export const getOrders = () => api.get('/v1/orders')
 
 const apis = {
-    postNew: postNew,
-    postList: postList,
+    postOrders,
+    getOrders,
 }
 
 export default apis

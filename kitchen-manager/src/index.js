@@ -14,17 +14,16 @@ const BodyContainer = Styled.main.attrs({
   height: 100vh;
 `
 
-const Home = () => <h1><center>Kitchen Manager Home</center></h1>
-// const NoPage = () => <h1><center>No Page!</center></h1>
+const NoPage = () => <h1><center>No Page!</center></h1>
 
 function Body() {
   return (
     <BodyContainer>
       <Routes>
-        <Route index element={<Home />} />
+        <Route index element={<OrderView />} />
         <Route path="/order/view" element={<OrderView />} />
         <Route path="/order/manager" element={<OrderManager />} />
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<NoPage />} />
       </Routes>
     </BodyContainer>
   )

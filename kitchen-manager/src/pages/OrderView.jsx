@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-// import Api from '../api'
+import Api from '../api'
+import { API_URL } from '../Constants'
 import ReactPlayer from 'react-player'
 import Styled from 'styled-components'
 import BgBlackImage from '../resources/bg-black.png'
-import RoofYellowImage from '../resources/roof-yellow.png'
-import RoofBlackImage from '../resources/roof-black.png'
+import BgYellowImage from '../resources/bg-yellow.png'
+import ShelfYellowImage from '../resources/shelf-yellow.png'
+import ShelfBlackImage from '../resources/shelf-black.png'
 
 
 const Wrapper = Styled.div.attrs({
@@ -67,7 +69,7 @@ const OrderLocation = Styled(OrderInfoItem)`
     float: left;
     width: 50px;
     color: #fff;
-    background-image: url(${RoofBlackImage});
+    background-image: url(${ShelfBlackImage});
     background-size: 50px 50px;
     background-repeat: no-repeat;
 `
@@ -84,14 +86,22 @@ class OrderView extends Component {
     componentDidMount = async () => {
         this.setState({ isLoading: true })
 
-        var orders = []
+        const eventSource = API_URL + "/v1/orders/events/create"
 
-        // fill orders with index 0 to 9
-        for (var i = 1; i < 9; i++) {
-            orders.push(i * 123)
-        }
+        console.log(eventSource)
 
-        this.setState({ orders: orders, isLoading: false })
+        const events = new EventSource(eventSource);
+
+        events.addEventListener("order_create", event => {
+            let eventData = event.data
+            let jsonData = JSON.parse(eventData)
+            this.addNewOrder(jsonData.data)
+        })
+    }
+
+    addNewOrder = (order) => {
+        console.log(order)
+        this.setState({ orders: [...this.state.orders, order] })
     }
 
     render() {
@@ -99,6 +109,7 @@ class OrderView extends Component {
 
         return (
             <Wrapper>
+                <meta name="mobile-web-app-capable" content="yes"></meta>
                 <VideoCard>
                     <ReactPlayer 
                     url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
@@ -115,8 +126,8 @@ class OrderView extends Component {
                 {orders.map((order, key) => (
                     <OrderCard key={key}>
                         <OrderInfo>
-                            <OrderId>{order}</OrderId>
-                            <OrderLocation>1</OrderLocation>
+                            <OrderId>{order.id}</OrderId>
+                            <OrderLocation>{order.shelf}</OrderLocation>
                         </OrderInfo>
                     </OrderCard>
                 ))}

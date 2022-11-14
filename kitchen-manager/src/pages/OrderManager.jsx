@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Api from '../api'
 import Styled from 'styled-components'
 
 const Wrapper = Styled.div.attrs({
@@ -29,6 +30,10 @@ body {
   margin-bottom: 10px;
 }
 
+.form-signin button {
+    margin-bottom: 20px;
+  }
+
 `
 
 class OrderManager extends Component {
@@ -36,7 +41,15 @@ class OrderManager extends Component {
         super(props)
         this.state = {
             isLoading: false,
+            orderId: '',
+            orderShelf: ''
         }
+
+        this.onOrderIdChange = this.onOrderIdChange.bind(this);
+        this.onOrderShelfChange = this.onOrderShelfChange.bind(this);
+        this.onClickSubmit = this.onClickSubmit.bind(this);
+
+        document.title = 'Siparis Yonetimi';
     }
 
     componentDidMount = async () => {
@@ -45,27 +58,102 @@ class OrderManager extends Component {
         this.setState({ isLoading: false })
     }
 
+    addNewOrder = async (order) => {
+
+    }
+
+    onOrderIdChange = async (event) => {
+        this.setState({ orderId: event.target.value })
+    }
+
+    onOrderShelfChange = async (event) => {
+        this.setState({ orderShelf: event.target.value })
+    }
+
+    onClickSubmit = async (event) => {
+
+        event.preventDefault()
+
+        const { orderId, orderShelf } = this.state
+
+        this.setState({ isSuccess: false, isMessageVisible: false })
+
+        const payload = {
+            "id": parseInt(orderId),
+            "shelf": parseInt(orderShelf)
+        }
+
+        let result = null
+
+        try {
+            result = await Api.postOrders(payload)
+
+            if (result.status === 200) {
+                this.setState({ isSuccess: true })
+            }
+            else {
+                this.setState({ isSuccess: false })
+            }
+        } catch (error) {
+            this.setState({ isSuccess: false })
+        }
+
+        this.setState({ orderId: '', orderShelf: '', isMessageVisible: true })
+
+        console.log(result)
+
+        setTimeout(() => {
+            this.setIsMessageVisible(false);
+        }, 3000);
+
+        event.stopPropagation();
+        event.nativeEvent.stopPropagation();
+    }
+
+    setIsMessageVisible = (value) => {
+        this.setState({ isMessageVisible: value })
+    }
+
     render() {
         return (
             <Wrapper>
-                <main className="form-signin w-400 m-auto ">
+                <main className="form-signin w-400 m-auto">
                     <form>
-                        <img className="mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="150" height="57" />
-
                         <h1 className="h3 mb-3 fw-normal text-white">Siparis Guncelle</h1>
 
                         <div className="form-floating">
-                            <input type="text" className="form-control" id="floatingInput" placeholder="123" />
+                            <input type="text" className="form-control" id="floatingInput"
+                                value={this.state.orderId}
+                                onChange={(event) => { this.onOrderIdChange(event) }} />
                             <label htmlFor="floatingInput">Siparis No</label>
                         </div>
 
                         <div className="form-floating">
-                            <input type="text" className="form-control" id="floatingInput" placeholder="123" />
+                            <input type="text" className="form-control" id="floatingInput"
+                                value={this.state.orderShelf}
+                                onChange={(event) => { this.onOrderShelfChange(event) }} />
                             <label htmlFor="floatingInput">Siparis Raf</label>
                         </div>
 
-                        <button className="w-100 btn btn-lg btn-primary" type="submit">Hazir</button>
+                        <button className="w-100 btn btn-lg btn-primary" type="submit"
+                            onClick={(event) => { this.onClickSubmit(event) }}>Hazir</button>
                     </form>
+
+
+                    {this.state.isMessageVisible && !this.state.isSuccess ?
+                        <div className="alert alert-danger" role="alert">
+                            Bir hata olustu! Tekrar deneyin...
+                        </div>
+                        : null
+                    }
+
+                    {this.state.isMessageVisible && this.state.isSuccess ?
+                        <div className="alert alert-success" role="alert">
+                            Siparis basariyla eklendi!
+                        </div>
+                        : null
+                    }
+
                 </main>
 
             </Wrapper>
