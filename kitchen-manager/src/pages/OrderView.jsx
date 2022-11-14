@@ -81,6 +81,8 @@ class OrderView extends Component {
             orders: [],
             isLoading: false,
         }
+
+        document.title = 'Siparis Akisi';
     }
 
     componentDidMount = async () => {
@@ -88,20 +90,31 @@ class OrderView extends Component {
 
         const eventSource = API_URL + "/v1/orders/events/create"
 
-        console.log(eventSource)
-
         const events = new EventSource(eventSource);
 
         events.addEventListener("order_create", event => {
             let eventData = event.data
-            let jsonData = JSON.parse(eventData)
-            this.addNewOrder(jsonData.data)
+
+            if(eventData.length > 0) {
+                let jsonData = JSON.parse(eventData)
+                this.addNewOrder(jsonData.data)
+            }
+
         })
     }
 
     addNewOrder = (order) => {
-        console.log(order)
-        this.setState({ orders: [...this.state.orders, order] })
+        this.setState({ orders: [order, ...this.state.orders] }, () => {
+            
+            let newOrders = this.state.orders
+
+            if(newOrders.length > 8) {
+                newOrders.pop()
+            }
+
+            this.setState({ orders: newOrders })
+
+        })
     }
 
     render() {

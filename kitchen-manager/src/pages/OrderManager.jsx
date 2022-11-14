@@ -83,7 +83,7 @@ class OrderManager extends Component {
             "shelf": parseInt(orderShelf)
         }
 
-        let result = null
+        let result = []
 
         try {
             result = await Api.postOrders(payload)
@@ -99,8 +99,6 @@ class OrderManager extends Component {
         }
 
         this.setState({ orderId: '', orderShelf: '', isMessageVisible: true })
-
-        console.log(result)
 
         setTimeout(() => {
             this.setIsMessageVisible(false);
@@ -124,6 +122,7 @@ class OrderManager extends Component {
                         <div className="form-floating">
                             <input type="text" className="form-control" id="floatingInput"
                                 value={this.state.orderId}
+                                placeholder="Siparis Id"
                                 onChange={(event) => { this.onOrderIdChange(event) }} />
                             <label htmlFor="floatingInput">Siparis No</label>
                         </div>
@@ -131,6 +130,7 @@ class OrderManager extends Component {
                         <div className="form-floating">
                             <input type="text" className="form-control" id="floatingInput"
                                 value={this.state.orderShelf}
+                                placeholder="Raf No"
                                 onChange={(event) => { this.onOrderShelfChange(event) }} />
                             <label htmlFor="floatingInput">Siparis Raf</label>
                         </div>
