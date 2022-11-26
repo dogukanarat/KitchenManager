@@ -146,6 +146,7 @@ class OrderView extends Component {
                         width='100%'
                         height='100%'
                         playing={true}
+                        controls={false}
                         onEnded={() => {
                             let newIndex = this.state.currentVideoIndex + 1
 

@@ -1,0 +1,11 @@
+indent_style = "Block"
+indent_size = 4
+reorder_imports = true
+wrap_line_length = 120
+brace_style = "AlwaysNextLine"
+control_brace_style = "AlwaysNextLine"
+match_arm_blocks =  true
+match_block_trailing_comma =  true
+match_else_blocks =  true
+match_trait_blocks =  true
+newline_style = "Unix"

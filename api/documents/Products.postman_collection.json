@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "4585f6bb-e4ff-436a-be9e-5ccb9dd3bc53",
+		"name": "Products",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17757890"
+	},
+	"item": [
+		{
+			"name": "List Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{apiVersion}}/products?offset=0&limit=0",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{apiVersion}}",
+						"products"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Product 2\",\n    \"price\": 19.9,\n    \"kind\": \"Food\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/{{apiVersion}}/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{apiVersion}}",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Product Update Price 2\",\n    \"price\": 20.9,\n    \"kind\": \"Food\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/{{apiVersion}}/products/635024433c4620ebc1c7fd24",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{apiVersion}}",
+						"products",
+						"635024433c4620ebc1c7fd24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/{{apiVersion}}/products/635024433c4620ebc1c7fd24",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{apiVersion}}",
+						"products",
+						"635024433c4620ebc1c7fd24"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
